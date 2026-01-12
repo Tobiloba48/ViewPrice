@@ -1,0 +1,7 @@
+.cardCarousal:-webkit-scrollbar {
+  display: none;
+}
+.cardCarousal {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

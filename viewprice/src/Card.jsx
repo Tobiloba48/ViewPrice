@@ -14,7 +14,7 @@ function Card ({
     }){
     
     return(
-       <div className='w-[20em] '>
+       <div className='w-[24em]'>
             <div className='bg-gray-400 place-items-center relative rounded-sm'>
                 <div className='bg-white rounded-full p-2 place-items-center
                                  absolute top-0 left-10 z-2 -translate-x-1/2 translate-y-1/2'>
