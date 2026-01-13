@@ -2,7 +2,9 @@ import Hero from './Hero/Hero.jsx'
 import Category from './Category.jsx'
 import LabelAndScroll from './LabelAndScroll.jsx'
 import CardCarousel from './CardCarousel.jsx'
-import BlackFriday from './assets/black-friday.jpg'
+import BlackFriday from './assets/purple-woman.png'
+import ExploreCard from './ExploreCard.jsx'
+import SpecialDeal from './assets/red-sneakers.jpg'
 import { useRef } from "react";
 
 function Home() {
@@ -44,7 +46,13 @@ function Home() {
 
         <CardCarousel ref={carouselRef} />
       </section>
-      <img src={BlackFriday} alt="" />
+      <div className='mb-10 pl-2'>
+        <img src={BlackFriday} alt="" className='object-cover w-full' />
+      </div>
+
+      <div className='m-16'>
+        <ExploreCard cardImage={SpecialDeal}/>
+      </div>
     </section>
   );
 }
