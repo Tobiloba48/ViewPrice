@@ -3,8 +3,9 @@ import Category from './Category.jsx'
 import LabelAndScroll from './LabelAndScroll.jsx'
 import CardCarousel from './CardCarousel.jsx'
 import BlackFriday from './assets/purple-woman.png'
-import ExploreCard from './ExploreCard.jsx'
+import ExploreCardCarousel  from './ExploreCardCarousel.jsx'
 import SpecialDeal from './assets/red-sneakers.jpg'
+import Compare from './Compare.jsx'
 import { useRef } from "react";
 
 function Home() {
@@ -50,8 +51,8 @@ function Home() {
         <img src={BlackFriday} alt="" className='object-cover w-full' />
       </div>
 
-      <div className='m-16'>
-        <ExploreCard cardImage={SpecialDeal}/>
+      <div className='my-20 m-16 md:mx-[7em]'>
+        <ExploreCardCarousel/>
       </div>
     </section>
   );
