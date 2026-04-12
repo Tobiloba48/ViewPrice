@@ -1,0 +1,11 @@
+.body{
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.cardCarousal:-webkit-scrollbar {
+  display: none;
+}
+.cardCarousal {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
