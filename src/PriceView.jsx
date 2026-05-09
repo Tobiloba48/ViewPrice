@@ -1,27 +1,102 @@
+function PriceView() {
+  return (
+    <section
+      style={{
+        background: 'linear-gradient(135deg, #FFF3EC 0%, #FFE8D6 100%)',
+        padding: 'clamp(32px, 5vw, 64px) clamp(20px, 5vw, 80px)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 48,
+        marginBottom: 8,
+        fontFamily: "'DM Sans', sans-serif",
+      }}
+    >
+      {/* Visual placeholder — lg only */}
+      <div
+        className="hidden lg:flex items-center justify-center"
+        style={{
+          width: 200,
+          height: 200,
+          borderRadius: 20,
+          background: 'rgba(247,93,2,0.1)',
+          border: '2px dashed rgba(247,93,2,0.25)',
+          flexShrink: 0,
+          fontSize: 64,
+        }}
+      >
+        🔍
+      </div>
 
+      {/* Text + form */}
+      <div style={{ flex: 1 }}>
+        <h2
+          style={{
+            fontFamily: "'Syne', sans-serif",
+            fontWeight: 800,
+            fontSize: 'clamp(22px, 3.5vw, 36px)',
+            letterSpacing: '-0.5px',
+            color: '#111110',
+            marginBottom: 10,
+            textAlign: 'center',
+          }}
+        >
+          Compare Product Prices
+        </h2>
 
-function PriceView(){
-    return(
-        <section className="flex justify-between bg-[#F75D022E] p-5 md:px-20 md:py-10 mb-2 gap-10">
-            
-            <div className="align-center hidden lg:flex">
-                <div className="bg-white w-90 h-90"></div>
-            </div>
-            <div className="place-content-center">
-                <h2 className="font-bold text-2xl lg:text-4xl pb-2 text-center">Compare Product Prices</h2>
-                <p className="text-center">Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                    Provident dignissimos illo ab delectus dolorem, quasi libero</p>
+        <p
+          style={{
+            color: '#888780',
+            fontSize: 14,
+            lineHeight: 1.7,
+            marginBottom: 20,
+            textAlign: 'center',
+          }}
+        >
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+          Provident dignissimos illo ab delectus dolorem, quasi libero
+        </p>
 
-                <div className="flex gap-2 py-4">
-                    <input className="h-5 p-5 bg-white w-[50%] md:w-[70%]" placeholder="Product Name"
-                         type="search" />
-
-                    <button className="bg-black  w-[35%] md:w-[25%]
-                     text-white p-2">View Prices</button>
-                </div>
-            </div>
-        </section>
-    )
+        <div style={{ display: 'flex', gap: 8, maxWidth: 520, margin: '0 auto' }}>
+          <input
+            type="search"
+            placeholder="Product Name"
+            style={{
+              flex: 1,
+              border: '1px solid rgba(247,93,2,0.2)',
+              borderRadius: 8,
+              padding: '11px 16px',
+              fontSize: 14,
+              fontFamily: "'DM Sans', sans-serif",
+              outline: 'none',
+              background: '#fff',
+              transition: 'border-color 0.2s',
+            }}
+            onFocus={e => e.target.style.borderColor = '#F75D02'}
+            onBlur={e => e.target.style.borderColor = 'rgba(247,93,2,0.2)'}
+          />
+          <button
+            style={{
+              background: '#111110',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 8,
+              padding: '11px 22px',
+              fontSize: 14,
+              fontWeight: 600,
+              fontFamily: "'DM Sans', sans-serif",
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = '#F75D02'}
+            onMouseLeave={e => e.currentTarget.style.background = '#111110'}
+          >
+            View Prices
+          </button>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-export default PriceView
+export default PriceView;

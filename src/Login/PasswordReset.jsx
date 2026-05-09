@@ -6,45 +6,127 @@ function PasswordReset() {
 
   const handleReset = (e) => {
     e.preventDefault();
-    // TODO: Connect to your backend API to send reset email
     console.log('Reset password for:', email);
   };
 
   return (
-    <section className="bg-black min-h-screen flex items-center justify-center p-4 transition-all duration-500">
-      <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-8 space-y-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-center">Password Reset</h1>
-        <p className="text-center text-sm text-gray-600">
-          We will help you reset your password.
-        </p>
+    <section
+      style={{
+        background: '#111110',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 16,
+        fontFamily: "'DM Sans', sans-serif",
+      }}
+    >
+      <div
+        style={{
+          background: '#fff',
+          borderRadius: 16,
+          boxShadow: '0 24px 64px rgba(0,0,0,0.3)',
+          maxWidth: 440,
+          width: '100%',
+          padding: 'clamp(28px, 5vw, 40px)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 20,
+        }}
+      >
+        {/* Icon */}
+        <div
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: 14,
+            background: '#FFF3EC',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 24,
+            margin: '0 auto',
+          }}
+        >
+          🔑
+        </div>
 
-        <form onSubmit={handleReset} className="space-y-4">
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium">Email Address</label>
+        {/* Heading */}
+        <div style={{ textAlign: 'center' }}>
+          <h1
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 800,
+              fontSize: 'clamp(22px, 4vw, 28px)',
+              letterSpacing: '-0.5px',
+              color: '#111110',
+              marginBottom: 8,
+            }}
+          >
+            Password Reset
+          </h1>
+          <p style={{ fontSize: 14, color: '#888780', lineHeight: 1.6 }}>
+            We will help you reset your password.
+          </p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleReset} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label style={{ fontSize: 13, fontWeight: 500, color: '#3a3a38' }}>
+              Email Address
+            </label>
             <input
               type="email"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#F75D02]"
+              style={{
+                border: '1px solid rgba(0,0,0,0.15)',
+                borderRadius: 8,
+                padding: '11px 14px',
+                fontSize: 14,
+                fontFamily: "'DM Sans', sans-serif",
+                outline: 'none',
+                color: '#111110',
+                transition: 'border-color 0.2s, box-shadow 0.2s',
+              }}
+              onFocus={e => { e.target.style.borderColor = '#F75D02'; e.target.style.boxShadow = '0 0 0 3px rgba(247,93,2,0.1)'; }}
+              onBlur={e => { e.target.style.borderColor = 'rgba(0,0,0,0.15)'; e.target.style.boxShadow = 'none'; }}
               required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-[#F75D02] text-white font-semibold py-2 rounded-md hover:bg-[#e55400] transition-colors"
+            style={{
+              background: '#F75D02',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 8,
+              padding: '12px 0',
+              fontSize: 15,
+              fontWeight: 600,
+              fontFamily: "'DM Sans', sans-serif",
+              cursor: 'pointer',
+              width: '100%',
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = '#d94f00'}
+            onMouseLeave={e => e.currentTarget.style.background = '#F75D02'}
           >
             Reset Password
           </button>
         </form>
 
-        <div className="text-center space-y-2">
-          <p className="text-sm text-gray-600">
+        {/* Back to login */}
+        <div style={{ textAlign: 'center', borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: 16 }}>
+          <p style={{ fontSize: 14, color: '#888780' }}>
             Remember your password?{' '}
             <Link
               to="/login"
-              className="text-[#F75D02] font-medium hover:underline"
+              style={{ color: '#F75D02', fontWeight: 600, textDecoration: 'none' }}
             >
               Back to Sign In
             </Link>

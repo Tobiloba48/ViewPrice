@@ -8,82 +8,165 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="fixed top-0 left-0 w-full z-50 bg-white border-b border-black/10 shadow-xl">
-      
-      <div className="flex items-center justify-between py-5 px-6 lg:px-15">
-        
+    <section
+      className="fixed top-0 left-0 w-full z-50"
+      style={{
+        background: 'rgba(255,255,255,0.97)',
+        backdropFilter: 'blur(14px)',
+        WebkitBackdropFilter: 'blur(14px)',
+        borderBottom: '1px solid rgba(0,0,0,0.07)',
+        boxShadow: '0 2px 20px rgba(0,0,0,0.06)',
+      }}
+    >
+      <div className="flex items-center justify-between py-4 px-6 lg:px-14">
+
         {/* Logo */}
-        <img src={Viewprice} alt="Viewprice logo" />
+        <img src={Viewprice} alt="Viewprice logo" className="h-8 object-contain" />
 
         {/* Desktop Nav */}
         <nav className="hidden lg:block">
-          <ul className="flex items-center gap-12 font-bold">
-            <li className='cursor-pointer'>Home</li>
+          <ul className="flex items-center gap-10"
+            style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
 
-            <li className="flex items-center gap-2 cursor-pointer">
-              <span>Categories</span>
-              <img
-                src={DownArrow}
-                alt=""
-                className="pt-1 h-6 w-4"
-              />
+            <li
+              className="cursor-pointer transition-colors duration-200"
+              style={{ color: '#111110' }}
+              onMouseEnter={e => e.target.style.color = '#F75D02'}
+              onMouseLeave={e => e.target.style.color = '#111110'}
+            >
+              Home
             </li>
 
-            <li className='cursor-pointer'>Saved</li>
-            <li className='cursor-pointer'>Account</li>
+            <li
+              className="flex items-center gap-1 cursor-pointer transition-colors duration-200"
+              style={{ color: '#111110' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#F75D02'}
+              onMouseLeave={e => e.currentTarget.style.color = '#111110'}
+            >
+              <span>Categories</span>
+              <img src={DownArrow} alt="" className="h-5 w-4 pt-0.5" />
+            </li>
+
+            <li
+              className="cursor-pointer transition-colors duration-200"
+              style={{ color: '#111110' }}
+              onMouseEnter={e => e.target.style.color = '#F75D02'}
+              onMouseLeave={e => e.target.style.color = '#111110'}
+            >
+              Saved
+            </li>
+
+            <li
+              className="cursor-pointer transition-colors duration-200"
+              style={{ color: '#111110' }}
+              onMouseEnter={e => e.target.style.color = '#F75D02'}
+              onMouseLeave={e => e.target.style.color = '#111110'}
+            >
+              Account
+            </li>
           </ul>
         </nav>
 
-        {/* Desktop Right Side */}
-        <div className="hidden lg:flex justify-center gap-10 place-items-center">
-          <a href="#">
-            <img src={Cart} alt="" className="h-8 cursor-pointer" />
-          </a>
-          <Link to="/signup" className="bg-black cursor-pointer py-3 px-6 text-white font-bold">
+        {/* Desktop Right */}
+        <div className="hidden lg:flex items-center gap-4">
+          <button
+            style={{
+              width: 40, height: 40,
+              borderRadius: 8,
+              border: '1px solid rgba(0,0,0,0.09)',
+              background: '#fff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'border-color 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = '#F75D02'}
+            onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(0,0,0,0.09)'}
+          >
+            <img src={Cart} alt="Cart" className="h-5" />
+          </button>
+
+          <Link
+            to="/signup"
+            style={{
+              background: '#F75D02',
+              color: '#fff',
+              borderRadius: 8,
+              padding: '9px 22px',
+              fontSize: 14,
+              fontWeight: 600,
+              fontFamily: "'DM Sans', sans-serif",
+              textDecoration: 'none',
+              transition: 'background 0.2s, transform 0.15s',
+              display: 'inline-block',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#d94f00'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = '#F75D02'; e.currentTarget.style.transform = 'translateY(0)'; }}
+          >
             Sign Up
           </Link>
         </div>
 
         {/* Hamburger */}
         <button
-          className="lg:hidden flex flex-col gap-1"
+          className="lg:hidden flex flex-col gap-[5px] p-2"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
         >
-          <span className="w-6 h-0.5 bg-black"></span>
-          <span className="w-6 h-0.5 bg-black"></span>
-          <span className="w-6 h-0.5 bg-black"></span>
+          <span
+            className="block w-6 h-0.5 transition-all duration-300"
+            style={{ background: '#111110', transform: isOpen ? 'rotate(45deg) translateY(7px)' : 'none' }}
+          />
+          <span
+            className="block w-6 h-0.5 transition-all duration-300"
+            style={{ background: '#111110', opacity: isOpen ? 0 : 1 }}
+          />
+          <span
+            className="block w-6 h-0.5 transition-all duration-300"
+            style={{ background: '#111110', transform: isOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }}
+          />
         </button>
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <div className="lg:hidden px-6 pb-6 space-y-4 font-bold bg-white">
-          <div className="cursor-pointer">Home</div>
+      <div
+        className="lg:hidden overflow-hidden transition-all duration-300"
+        style={{ maxHeight: isOpen ? 400 : 0, background: '#fff' }}
+      >
+        <div className="px-6 pb-6 pt-2 space-y-4 border-t border-black/5"
+          style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
 
-          <div className="flex items-center gap-2 cursor-pointer">
+          <div className="cursor-pointer py-1" style={{ color: '#111110' }}>Home</div>
+
+          <div className="flex items-center gap-2 cursor-pointer py-1" style={{ color: '#111110' }}>
             <span>Categories</span>
-            <img src={DownArrow} alt="" className="h-6 w-4" />
+            <img src={DownArrow} alt="" className="h-5 w-4" />
           </div>
 
-          <div className="cursor-pointer">Saved</div>
-          <div className="cursor-pointer">Account</div>
+          <div className="cursor-pointer py-1" style={{ color: '#111110' }}>Saved</div>
+          <div className="cursor-pointer py-1" style={{ color: '#111110' }}>Account</div>
 
-          <div className="flex items-center gap-6 pt-4 border-t border-black/10">
-            <a href="#">
-              <img src={Cart} alt="" className="h-8 cursor-pointer" />
-            </a>
+          <div className="flex items-center gap-4 pt-4 border-t border-black/10">
+            <img src={Cart} alt="Cart" className="h-6 cursor-pointer" />
             <Link
               to="/signup"
               onClick={() => setIsOpen(false)}
-              className="bg-black py-3 px-6 text-white font-bold"
+              style={{
+                background: '#F75D02',
+                color: '#fff',
+                borderRadius: 8,
+                padding: '9px 22px',
+                fontSize: 14,
+                fontWeight: 600,
+                textDecoration: 'none',
+              }}
             >
               Sign Up
             </Link>
           </div>
         </div>
-      )}
+      </div>
     </section>
-  )
+  );
 }
 
-export default Header
+export default Header;

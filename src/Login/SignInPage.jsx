@@ -3,6 +3,37 @@ import Google from '../assets/google_symbol.svg.png';
 import Facebook from '../assets/facebook_symbol.svg.png';
 import { Link } from "react-router-dom";
 
+const inputStyle = {
+  border: '1px solid rgba(0,0,0,0.15)',
+  borderRadius: 8,
+  padding: '11px 14px',
+  fontSize: 14,
+  fontFamily: "'DM Sans', sans-serif",
+  outline: 'none',
+  width: '100%',
+  color: '#111110',
+  transition: 'border-color 0.2s, box-shadow 0.2s',
+};
+
+const socialBtnStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 10,
+  border: '1px solid rgba(0,0,0,0.12)',
+  borderRadius: 8,
+  padding: '10px 16px',
+  fontSize: 14,
+  fontWeight: 600,
+  color: '#F75D02',
+  background: '#fff',
+  cursor: 'pointer',
+  fontFamily: "'DM Sans', sans-serif",
+  textDecoration: 'none',
+  transition: 'background 0.2s, border-color 0.2s',
+  width: '100%',
+};
+
 function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,90 +41,158 @@ function SignInPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: Connect to backend API for login
     console.log('Signing in:', { email, password });
   };
 
   return (
-    <section className="bg-black min-h-screen flex items-center justify-center p-4 
-        transition-all duration-500">
-      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-8 space-y-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-center">Sign In</h1>
-        <p className="text-center text-sm text-gray-600">
-          Don’t have an account?{' '}
-          <Link to="/signup" className="text-[#F75D02] font-semibold">
-            Create one
-          </Link>
-        </p>
+    <section
+      style={{
+        background: '#111110',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 16,
+        fontFamily: "'DM Sans', sans-serif",
+      }}
+    >
+      <div
+        style={{
+          background: '#fff',
+          borderRadius: 16,
+          boxShadow: '0 24px 64px rgba(0,0,0,0.3)',
+          maxWidth: 440,
+          width: '100%',
+          padding: 'clamp(28px, 5vw, 40px)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 20,
+        }}
+      >
+        {/* Heading */}
+        <div style={{ textAlign: 'center' }}>
+          <h1
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 800,
+              fontSize: 'clamp(22px, 4vw, 28px)',
+              letterSpacing: '-0.5px',
+              color: '#111110',
+              marginBottom: 8,
+            }}
+          >
+            Sign In
+          </h1>
+          <p style={{ fontSize: 14, color: '#888780' }}>
+            Don't have an account?{' '}
+            <Link to="/signup" style={{ color: '#F75D02', fontWeight: 600, textDecoration: 'none' }}>
+              Create one
+            </Link>
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium">Email</label>
+        {/* Form */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+          {/* Email */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label style={{ fontSize: 13, fontWeight: 500, color: '#3a3a38' }}>Email</label>
             <input
               type="email"
               placeholder="Enter Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border border-gray-300 rounded-md p-2 
-                focus:outline-none focus:ring-2 focus:ring-[#F75D02]"
+              style={inputStyle}
+              onFocus={e => { e.target.style.borderColor = '#F75D02'; e.target.style.boxShadow = '0 0 0 3px rgba(247,93,2,0.1)'; }}
+              onBlur={e => { e.target.style.borderColor = 'rgba(0,0,0,0.15)'; e.target.style.boxShadow = 'none'; }}
               required
             />
           </div>
 
-          <div className="relative flex flex-col">
-            <label className="mb-1 text-sm font-medium">Password</label>
+          {/* Password */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, position: 'relative' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#3a3a38' }}>Password</label>
+              <Link
+                to="/reset-password"
+                style={{ fontSize: 12, color: '#F75D02', fontWeight: 600, textDecoration: 'none' }}
+              >
+                Forgot Password?
+              </Link>
+            </div>
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border border-gray-300 rounded-md p-2 pr-24 
-                focus:outline-none focus:ring-2 focus:ring-[#F75D02]"
+              style={{ ...inputStyle, paddingRight: 56 }}
+              onFocus={e => { e.target.style.borderColor = '#F75D02'; e.target.style.boxShadow = '0 0 0 3px rgba(247,93,2,0.1)'; }}
+              onBlur={e => { e.target.style.borderColor = 'rgba(0,0,0,0.15)'; e.target.style.boxShadow = 'none'; }}
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-2 top-8 text-gray-500"
+              style={{
+                position: 'absolute', right: 12, bottom: 11,
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: 12, fontWeight: 600, color: '#888780',
+                fontFamily: "'DM Sans', sans-serif",
+              }}
             >
               {showPassword ? 'Hide' : 'Show'}
             </button>
           </div>
 
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-[#F75D02] text-white font-semibold py-2 
-                rounded-md hover:bg-[#e55400] transition-colors"
+            style={{
+              background: '#F75D02',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 8,
+              padding: '12px 0',
+              fontSize: 15,
+              fontWeight: 600,
+              fontFamily: "'DM Sans', sans-serif",
+              cursor: 'pointer',
+              width: '100%',
+              transition: 'background 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = '#d94f00'}
+            onMouseLeave={e => e.currentTarget.style.background = '#F75D02'}
           >
             Sign In
           </button>
-
-          {/* Forgot password link under the button */}
-          <div className="text-right">
-            <Link to ="/reset-password" className="text-sm text-[#F75D02] font-medium hover:underline">
-              Forgot Password?
-            </Link>
-          </div>
         </form>
 
-        <p className="text-center text-sm text-gray-600 border-t border-black/10 pt-2">
-          Or sign in using
-        </p>
+        {/* Divider */}
+        <div style={{ borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: 16 }}>
+          <p style={{ fontSize: 13, color: '#888780', textAlign: 'center', marginBottom: 12 }}>
+            Or sign in using
+          </p>
 
-        <div className="mt-3 space-y-2">
-            <a href="#" 
-                className='flex items-center justify-center gap-2 border border-gray-300 
-                  py-2 text-sm rounded-lg hover:bg-gray-100 transition text-[#F75D02] font-semibold'
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <a
+              href="#"
+              style={socialBtnStyle}
+              onMouseEnter={e => { e.currentTarget.style.background = '#FFF3EC'; e.currentTarget.style.borderColor = '#F75D02'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = 'rgba(0,0,0,0.12)'; }}
             >
-                <img src={Google} alt="Google" className="w-4 h-4" />
-                  Continue with Google
+              <img src={Google} alt="Google" style={{ width: 18, height: 18 }} />
+              Continue with Google
             </a>
-          <a href="#" className='flex items-center justify-center gap-2 border border-gray-300 
-            py-2 text-sm rounded-lg hover:bg-gray-100 transition text-[#F75D02] font-semibold'
-          > 
-            <img src={Facebook} alt="Facebook" className="w-4 h-4 " />
-              Continue with Facebook        
-            </a>             
+            <a
+              href="#"
+              style={socialBtnStyle}
+              onMouseEnter={e => { e.currentTarget.style.background = '#FFF3EC'; e.currentTarget.style.borderColor = '#F75D02'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = 'rgba(0,0,0,0.12)'; }}
+            >
+              <img src={Facebook} alt="Facebook" style={{ width: 18, height: 18 }} />
+              Continue with Facebook
+            </a>
+          </div>
         </div>
       </div>
     </section>
