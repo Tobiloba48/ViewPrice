@@ -7,14 +7,17 @@ import PasswordReset from './Login/PasswordReset.jsx'
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<SignInPage />} />
-        <Route path="/reset-password" element={<PasswordReset />} />
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<SignInPage />} />
+          <Route path="/reset-password" element={<PasswordReset />} />
+        </Routes>
+      </Router>
+    </>
+   
   )
 }
 
