@@ -1,7 +1,7 @@
-import Headset from './assets/headset.png'
-import Love from './assets/love.png'
-import Star from './assets/Star 1.png'
-import Plus from './assets/plus.png'
+import Headset from '../assets/headset.png'
+import Love from '../assets/love.png'
+import Star from '../assets/Star 1.png'
+import Plus from '../assets/plus.png'
 
 function Card({
   productName = "Product Name",

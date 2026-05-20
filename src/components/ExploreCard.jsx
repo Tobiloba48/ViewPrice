@@ -1,5 +1,5 @@
-import SpecialDeal from './assets/red-sneakers.jpg';
-import WhiteCart from './assets/white-cart.png';
+import SpecialDeal from '../assets/red-sneakers.jpg';
+import WhiteCart from '../assets/white-cart.png';
 
 function ExploreCard({
   label = "Clearance Sales",
@@ -83,7 +83,7 @@ function ExploreCard({
           transition: 'background 0.25s, transform 0.25s',
           whiteSpace: 'nowrap',
         }}
-        className="group-hover:!bg-[#F75D02]"
+        className="group-hover:!bg-[#97542d]"
       >
         <p style={{ fontSize: 13, fontWeight: 600, color: '#fff', fontFamily: "'DM Sans', sans-serif" }}>
           Shop Now

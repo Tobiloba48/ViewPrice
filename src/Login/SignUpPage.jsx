@@ -178,7 +178,9 @@ function SignUpPage() {
           </div>
 
           {/* Submit */}
-          <button
+          <Link
+          to="/confirm-email"
+            className='text-center'
             type="submit"
             disabled={!passwordMatch}
             style={{
@@ -198,7 +200,7 @@ function SignUpPage() {
             onMouseLeave={e => { if (passwordMatch) e.currentTarget.style.background = '#F75D02'; }}
           >
             Create Account
-          </button>
+          </Link>
         </form>
 
         {/* Terms */}

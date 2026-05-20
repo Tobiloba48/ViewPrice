@@ -1,5 +1,5 @@
-import LeftArrow from './assets/keyboard_arrow_left_24dp_000000_FILL0_wght400_GRAD0_opsz24.png'
-import RightArrow from './assets/keyboard_arrow_right_24dp_000000_FILL0_wght400_GRAD0_opsz24.png'
+import LeftArrow from '../assets/keyboard_arrow_left_24dp_000000_FILL0_wght400_GRAD0_opsz24.png'
+import RightArrow from '../assets/keyboard_arrow_right_24dp_000000_FILL0_wght400_GRAD0_opsz24.png'
 
 function LabelAndScroll({ onLeft, onRight, label }) {
   return (

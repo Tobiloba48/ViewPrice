@@ -1,12 +1,12 @@
-import Whatsapp from './assets/whatsapp_symbol.svg.png'
-import X from './assets/x_logo.svg.png'
-import Facebook from './assets/facebook_symbol.svg.png'
-import Google from './assets/google_symbol.svg.png'
-import Instagram from './assets/Instagram.png'
-import OrangeViewprice from './assets/OrangeViewprice.png'
-import Visa from './assets/visa_inc_logo.svg.png'
-import MasterCard from './assets/mastercard.png'
-import Flutterwave from './assets/flutterwave_symbol.svg.png'
+import Whatsapp from '../assets/whatsapp_symbol.svg.png'
+import X from '../assets/x_logo.svg.png'
+import Facebook from '../assets/facebook_symbol.svg.png'
+import Google from '../assets/google_symbol.svg.png'
+import Instagram from '../assets/Instagram.png'
+import OrangeViewprice from '../assets/OrangeViewprice.png'
+import Visa from '../assets/visa_inc_logo.svg.png'
+import MasterCard from '../assets/mastercard.png'
+import Flutterwave from '../assets/flutterwave_symbol.svg.png'
 
 const socialIconStyle = {
   width: 34,

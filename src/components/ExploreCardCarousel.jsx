@@ -1,6 +1,6 @@
 import ExploreCard from './ExploreCard.jsx'
-import BlackFriday from './assets/black-friday.jpg'
-import Computer from './assets/macbook.jpg'
+import BlackFriday from '../assets/black-friday.jpg'
+import Computer from '../assets/macbook.jpg'
 
 function ExploreCardCarousel() {
   return (
