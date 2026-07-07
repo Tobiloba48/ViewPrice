@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route, Outlet } from 'react-router-dom'
 import { useRef } from 'react'
 
 import Header from './Header/Header.jsx'
@@ -56,22 +56,34 @@ function HomePage() {
         <Newsletter />
       </div>
 
-      <Footer />
     </section>
+  );
+}
+
+function MainLayout () {
+  return (
+    <>
+      <Header />
+      <Outlet/>
+      <Footer />
+    </>
   );
 }
 
 function App() {
   return (
-    <Router>
+    <>
       <Routes>
-        <Route path="/" element={<><Header /><HomePage /></>} />
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/product-page" element={<ProductPage />} />
+        </Route>
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<SignInPage />} />
         <Route path="/reset-password" element={<PasswordReset />} />
-        <Route path='/confirm-email' element={<ConfirmEmail/>}/>
+        <Route path="/confirm-email" element={<ConfirmEmail />} />
       </Routes>
-    </Router>
+    </>
   );
 }
 
