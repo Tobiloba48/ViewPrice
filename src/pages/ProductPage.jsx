@@ -1,6 +1,7 @@
 import Headset from "../assets/headset.png";
 import Star from "../assets/Star 1.png";
 import React, { useState } from "react";
+import CardCarousel from "../components/CardCarousel";
 
 function ProductCount() {
   const [count, setCount] = useState(0);
@@ -79,7 +80,7 @@ function ProductPage() {
 
   return (
     <div className="m-3 mt-20 md:m-5 md:mt-20">
-      <section className=" md:flex md:justify-between gap-10  place-items-center">
+      <section className=" md:flex md:justify-between gap-10  md:place-items-start place-items-center">
         <div className="bg-gray-400 place-items-center md:w-[40%] w-[80%] h-100 rounded-lg">
           <img
             src={Headset}
@@ -88,7 +89,7 @@ function ProductPage() {
           />
         </div>
         <div className="w-full">
-          <h2 className="text-3xl font-semibold text-center md:text-start">
+          <h2 className="text-3xl font-semibold text-center md:text-start pt-6 md:pt-0" >
             Product Name
           </h2>
           <div className="flex justify-center md:justify-start gap-8">
@@ -116,16 +117,20 @@ function ProductPage() {
           </div>
         </div>
       </section>
-      <div className="flex justify-start mt-5 font-bold gap-4 ">
+      <div className="flex justify-start mt-5 font-bold gap-4 py-5 ">
         <h1
-          className="text-[12px] lg:text-lg cursor-pointer border-b-2 border-red-300 pb-1"
+          className={`text-[12px] lg:text-lg cursor-pointer border-b-2 pb-1 ${
+            activeTab === "description" ? "border-gray-900" : "border-gray-300"
+          }`}
           onClick={() => setActiveTab("description")}
         >
           Description
         </h1>
 
         <h1
-          className="text-[12px] lg:text-lg cursor-pointer border-b-2 border-red-300 pb-1"
+          className={`text-[12px] lg:text-lg cursor-pointer border-b-2 pb-1 ${
+            activeTab === "review" ? "border-gray-900" : "border-gray-300"
+          }`}
           onClick={() => setActiveTab("review")}
         >
           Review
@@ -134,6 +139,12 @@ function ProductPage() {
 
       {activeTab === "description" && <Description />}
       {activeTab === "review" && <Review />}
+      <section className="my-10">
+        <h1 className="text-[16px] lg:text-lg font-bold pb-6">
+          Recently Viewed
+        </h1>
+        <CardCarousel  />
+      </section>
     </div>
   );
 }

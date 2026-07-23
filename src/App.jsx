@@ -17,6 +17,7 @@ import SignUpPage from './Login/SignUpPage.jsx'
 import SignInPage from './Login/SignInPage.jsx'
 import PasswordReset from './Login/PasswordReset.jsx'
 import ConfirmEmail from './Login/ConfirmEmail.jsx'
+import ScrollToTop from './components/ScrollToTop.jsx'
 
 function HomePage() {
   const topSalesRef = useRef(null);
@@ -73,6 +74,7 @@ function MainLayout () {
 function App() {
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
