@@ -2,9 +2,15 @@ import Headset from "../assets/headset.png";
 import Star from "../assets/Star 1.png";
 import React, { useState } from "react";
 import CardCarousel from "../components/CardCarousel";
+import { useNavigate } from "react-router-dom";
 
 function ProductCount() {
   const [count, setCount] = useState(0);
+    const navigate = useNavigate();
+
+  const handleBuy = () => {
+    navigate("/Cart");
+  };
 
   const Increase = () => {
     setCount(count + 1);
@@ -14,7 +20,7 @@ function ProductCount() {
     setCount(count - 1);
   };
   return (
-    <div className="grid grid-cols-5 items-center gap-4">
+    <div className="grid grid-cols-5 items-center gap-4 ">
       <h1 className="font-bold text-[12px] lg:text-lg">God's Will Venture</h1>
       <h2 className="text-[12px] lg:text-lg">JUMIA</h2>
       <h2 className="font-bold text-[12px] lg:text-lg">2000.00</h2>
@@ -35,7 +41,7 @@ function ProductCount() {
           +
         </div>
       </div>
-      <button className="bg-black text-white font-bold py-2 px-2 md:px-4 rounded-lg text-[8px] md:text-[12px] lg:text-lg">
+      <button className="bg-black text-white font-bold py-2 px-2 md:px-4 rounded-lg text-[8px] md:text-[12px] lg:text-lg cursor-pointer" onClick={handleBuy}>
         Buy Now
       </button>
     </div>
@@ -79,7 +85,7 @@ function ProductPage() {
   const [activeTab, setActiveTab] = useState("description");
 
   return (
-    <div className="m-3 mt-20 md:m-5 md:mt-20">
+    <div className=" mt-20 m-6 lg:m-15 lg:mt-20 md:mt-20">
       <section className=" md:flex md:justify-between gap-10  md:place-items-start place-items-center">
         <div className="bg-gray-400 place-items-center md:w-[40%] w-[80%] h-100 rounded-lg">
           <img
