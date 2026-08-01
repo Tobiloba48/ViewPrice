@@ -19,6 +19,7 @@ import PasswordReset from './Login/PasswordReset.jsx'
 import ConfirmEmail from './Login/ConfirmEmail.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import Cart from './pages/Cart.jsx' 
+import { CartProvider } from './components/CartContext.jsx' 
 
 function HomePage() {
   const topSalesRef = useRef(null);
@@ -74,7 +75,7 @@ function MainLayout () {
 
 function App() {
   return (
-    <>
+    <CartProvider>
       <ScrollToTop />
       <Routes>
         <Route element={<MainLayout />}>
@@ -87,7 +88,7 @@ function App() {
         <Route path="/reset-password" element={<PasswordReset />} />
         <Route path="/confirm-email" element={<ConfirmEmail />} />
       </Routes>
-    </>
+    </CartProvider>
   );
 }
 

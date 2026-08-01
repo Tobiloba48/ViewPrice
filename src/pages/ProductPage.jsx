@@ -3,12 +3,24 @@ import Star from "../assets/Star 1.png";
 import React, { useState } from "react";
 import CardCarousel from "../components/CardCarousel";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../components/CartContext.jsx";
+
 
 function ProductCount() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
     const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   const handleBuy = () => {
+    addToCart(
+      {
+        id: 1, // give this product a real unique id once you have multiple products
+        productName: "God's Will Venture",
+        price: 2000,
+        image: Headset,
+      },
+      count,
+    );
     navigate("/Cart");
   };
 
@@ -20,7 +32,7 @@ function ProductCount() {
     setCount(count - 1);
   };
   return (
-    <div className="grid grid-cols-5 items-center gap-4 ">
+    <div className="grid grid-cols-5 items-center gap-4 bg-black/10 p-4 rounded-lg">
       <h1 className="font-bold text-[12px] lg:text-lg">God's Will Venture</h1>
       <h2 className="text-[12px] lg:text-lg">JUMIA</h2>
       <h2 className="font-bold text-[12px] lg:text-lg">2000.00</h2>
