@@ -80,7 +80,7 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/product-page" element={<ProductPage />} />
+          <Route path="/product-page/:id" element={<ProductPage />} />
           <Route path="/cart" element={<Cart />}></Route>
         </Route>
         <Route path="/signup" element={<SignUpPage />} />

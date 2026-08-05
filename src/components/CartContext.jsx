@@ -30,6 +30,9 @@ export function CartProvider({ children }) {
     });
   };
 
+  const removeFromCart = (id) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  };
   const updateCount = (id, delta) => {
     setCartItems((prev) =>
       prev.map((item) =>
@@ -41,7 +44,9 @@ export function CartProvider({ children }) {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, updateCount }}>
+    <CartContext.Provider
+      value={{ cartItems, addToCart, updateCount, removeFromCart }}
+    >
       {children}
     </CartContext.Provider>
   );

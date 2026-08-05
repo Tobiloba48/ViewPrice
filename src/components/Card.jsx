@@ -1,28 +1,69 @@
+import { useState } from 'react'
 import Headset from '../assets/headset.png'
 import Love from '../assets/love.png'
 import Star from '../assets/Star 1.png'
 import Plus from '../assets/plus.png'
 import { useNavigate } from 'react-router-dom'
+import { useCart } from "../components/CartContext.jsx";
 
-function Card({
-  productName = "Product Name",
-  product = Headset,
-  brandName = "Brand/Vendor Name",
-  rating = 4.7,
-  isInStock = false,
-  price = 0,
-  formalPrice = 0
-}) {
-  const navigate = useNavigate();
-  const handlePageClick = () => {
-    navigate("/product-page");
-  };
 
+function Card ({product}) {
+const navigate = useNavigate();
+const handlePageClick = () => {
+  navigate(`/product-page/${product.id}`);
+}
+  const { addToCart } = useCart();
+  const [showToast, setShowToast] = useState(false);
+
+ const handleAddToCart = () => {
+   addToCart(
+     {
+       id: product.id,
+       productName: product.productName,
+       price: product.price,
+       image: product.productImage,
+       seller: product.seller,
+     },
+   );
+   setShowToast(true);
+   setTimeout(() => setShowToast(false), 2000);
+ };
+
+const { 
+    productName,
+    productImage,  
+    BrandName, 
+    rating, 
+   isInStock, 
+   price, 
+   formalPrice } = product;
+   
   return (
+    <div className="w-full flex flex-col"
+      style={{ fontFamily: "'DM Sans', sans-serif", position: "relative" }}>
+      {showToast && (
+        <div
+          style={{
+            position: "absolute",
+            top: 10,
+            right: 10,
+            background: "#111110",
+            color: "#fff",
+            padding: "8px 14px",
+            borderRadius: 8,
+            fontSize: 12,
+            fontWeight: 600,
+            zIndex: 2,
+            boxShadow: "0 4px 14px rgba(0,0,0,0.2)",
+          }}
+        >
+          Added to cart ✓
+        </div>
+      )}
     <div
       className="w-full flex flex-col"
       style={{ fontFamily: "'DM Sans', sans-serif" }}
-    >
+    />
       {/* Image Section */}
       <div
         className="cursor-pointer"
@@ -65,8 +106,8 @@ function Card({
         </button>
 
         <img
-          src={product}
-          alt={productName}
+          src={productImage}
+          placeholder="https://via.placeholder.com/150"
           className="h-[14em] sm:h-[16em] md:h-[18em] object-contain p-4"
         />
       </div>
@@ -93,7 +134,7 @@ function Card({
                 marginBottom: 3,
               }}
             >
-              {brandName}
+              {BrandName}
             </p>
             <h1
               style={{
@@ -157,7 +198,7 @@ function Card({
                 e.currentTarget.style.transform = "scale(1)";
               }}
             >
-              <img src={Plus} alt="Add" style={{ width: 18, height: 18 }} />
+              <img src={Plus} alt="Add" style={{ width: 18, height: 18 }} onClick={handleAddToCart} />
             </button>
           </div>
 
@@ -200,10 +241,11 @@ function Card({
         onMouseEnter={(e) => (e.currentTarget.style.background = "#F75D02")}
         onMouseLeave={(e) => (e.currentTarget.style.background = "#111110")}
       >
-        Compare Price
+        Buy Now
       </button>
     </div>
   );
 }
+
 
 export default Card;

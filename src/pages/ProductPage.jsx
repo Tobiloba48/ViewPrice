@@ -2,11 +2,13 @@ import Headset from "../assets/headset.png";
 import Star from "../assets/Star 1.png";
 import React, { useState } from "react";
 import CardCarousel from "../components/CardCarousel";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../components/CartContext.jsx";
+import Products from "../Products/Product.jsx";
 
 
-function ProductCount() {
+
+function ProductCount({ product }) {
   const [count, setCount] = useState(1);
     const navigate = useNavigate();
   const { addToCart } = useCart();
@@ -14,10 +16,11 @@ function ProductCount() {
   const handleBuy = () => {
     addToCart(
       {
-        id: 1, // give this product a real unique id once you have multiple products
-        productName: "God's Will Venture",
-        price: 2000,
-        image: Headset,
+        id: product.id, 
+        productName: product.productName,
+        price: product.price,
+        image: product.productImage,
+        seller: product.seller,
       },
       count,
     );
@@ -33,7 +36,7 @@ function ProductCount() {
   };
   return (
     <div className="grid grid-cols-5 items-center gap-4 bg-black/10 p-4 rounded-lg">
-      <h1 className="font-bold text-[12px] lg:text-lg">God's Will Venture</h1>
+      <h1 className="font-bold text-[12px] lg:text-lg">{product.seller}</h1>
       <h2 className="text-[12px] lg:text-lg">JUMIA</h2>
       <h2 className="font-bold text-[12px] lg:text-lg">2000.00</h2>
       <div className="flex justify-between">
@@ -94,22 +97,27 @@ function Review() {
   );
 }
 function ProductPage() {
+  const { id } = useParams();
+  const product = Products.find((p) => p.id === Number(id));  
   const [activeTab, setActiveTab] = useState("description");
 
+  if (!product) {
+    return <div className="text-center py-10">Product not found</div>;
+  }
+
   return (
-    <div className=" mt-20 m-6 lg:m-15 lg:mt-20 md:mt-20">
+    <div className=" mt-20 m-6 lg:m-15 lg:mt-24 md:mt-24">
       <section className=" md:flex md:justify-between gap-10  md:place-items-start place-items-center">
         <div className="bg-gray-400 place-items-center md:w-[40%] w-[80%] h-100 rounded-lg">
           <img
-            src={Headset}
-            alt="Product Image"
+            src={product.productImage}
+            alt={product.productName}
             className="w-full h-full object-contain"
           />
         </div>
         <div className="w-full">
-          <h2 className="text-3xl font-semibold text-center md:text-start pt-6 md:pt-0" >
-            Product Name
-          </h2>
+          <h2 className="text-3xl font-semibold text-center md:text-start py-6 md:pt-0" >
+{product.productName}          </h2>
           <div className="flex justify-center md:justify-start gap-8">
             <div className="flex justify-between place-content-center">
               <img src={Star} />
@@ -127,7 +135,7 @@ function ProductPage() {
             lorem ut
           </h2>
           <div className="flex flex-col gap-4">
-            <ProductCount />
+            <ProductCount product={product} />
             {/* <ProductCount />
             <ProductCount />
             <ProductCount />
