@@ -24,7 +24,7 @@ function Cart() {
       <div className="flex md:flex-row flex-col gap-4 mt-10">
         <div className="w-full md:w-[70%] flex flex-col gap-4">
           {cartItems.length === 0 ? (
-            <p className="text-red-500 font-bold text-2xl  text-center">Your cart is empty!</p>
+            <p className="text-blue-500 font-bold text-2xl  text-center">Your cart is empty!</p>
           ) : (
             cartItems.map((item) => (
               <div className="flex justify-between gap-0  w-" key={item.id}>
