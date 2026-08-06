@@ -1,8 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext.jsx";
 
 function Cart() {
-  const { cartItems, updateCount, removeFromCart } = useCart();
+  const { cartItems, updateCount, removeFromCart, clearCart } = useCart();
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+        clearCart();
+
+    navigate("/order-confirmation");
+  }
 
   const shippingFee = cartItems.length === 0 ? 0 : 1000;
 
@@ -97,7 +105,7 @@ function Cart() {
                 <p>Total:</p>
                 <p className="text-[#F75D02]">N{total.toLocaleString()}.00</p>
               </div>
-              <button className="bg-[#F75D02] text-white font-bold py-2 px-4 rounded-lg mt-6 cursor-pointer transition duration-300 m-10">
+              <button className="bg-[#F75D02] text-white font-bold py-2 px-4 rounded-lg mt-6 cursor-pointer transition duration-300 m-10" onClick={handleCheckout}>
                 Checkout
               </button>
             </div>

@@ -12,6 +12,7 @@ import Newsletter from './components/Newsletter.jsx'
 import Footer from './components/Footer.jsx'
 import BlackFriday from './assets/purple-woman.png'
 import ProductPage from './pages/ProductPage.jsx'
+import OrderConfirmation from "./pages/OrderConfirmation.jsx";
 
 import SignUpPage from './Login/SignUpPage.jsx'
 import SignInPage from './Login/SignInPage.jsx'
@@ -82,7 +83,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/product-page/:id" element={<ProductPage />} />
           <Route path="/cart" element={<Cart />}></Route>
+          <Route path="/order-confirmation" element={<OrderConfirmation />} />
         </Route>
+
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<SignInPage />} />
         <Route path="/reset-password" element={<PasswordReset />} />

@@ -170,7 +170,14 @@ function Header() {
           className="px-6 pb-6 pt-2 space-y-4 border-t border-black/5"
           style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}
         >
-          <div className="cursor-pointer py-1" style={{ color: "#111110" }}>
+          <div
+            className="cursor-pointer py-1"
+            style={{ color: "#111110" }}
+            onClick={() => {
+              navigate("/");
+              setIsOpen(false);
+            }}
+          >
             Home
           </div>
 
@@ -190,7 +197,15 @@ function Header() {
           </div>
 
           <div className="flex items-center gap-4 pt-4 border-t border-black/10">
-            <img src={Cart} alt="Cart" className="h-6 cursor-pointer" />
+            <img
+              src={Cart}
+              alt="Cart"
+              className="h-6 cursor-pointer"
+              onClick={() => {
+                handleCartOpen();
+                setIsOpen(false);
+              }}
+            />
             <Link
               to="/signup"
               onClick={() => setIsOpen(false)}
