@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Google from '../assets/google_symbol.svg.png';
 import Facebook from '../assets/facebook_symbol.svg.png';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../Login/AuthContext";
+
 
 const inputStyle = (hasError = false) => ({
   border: `1px solid ${hasError ? '#c62828' : 'rgba(0,0,0,0.15)'}`,
@@ -41,16 +43,29 @@ function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { signup } = useAuth();
+  const navigate = useNavigate();
 
   const handleConfirmChange = (e) => {
     setConfirmPassword(e.target.value);
     setPasswordMatch(password === e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     if (!passwordMatch) return;
-    console.log('Submitting:', { email, password });
+    setLoading(true);
+    try {signup(email, password);
+      navigate("/confirm-email");
+    }
+    catch (err) {
+      setError(err.message.replace('Firebase: ', ''));}
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -99,6 +114,8 @@ function SignUpPage() {
             </Link>
           </p>
         </div>
+
+        {error && ( <p style={{ fontsize: 13, color:'#c62828', textAlign: 'center', margin: 0}}>{error}</p>)}
 
         {/* Form */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -178,7 +195,7 @@ function SignUpPage() {
           </div>
 
           {/* Submit */}
-          <Link
+          <button
           to="/confirm-email"
             className='text-center'
             type="submit"
@@ -200,7 +217,7 @@ function SignUpPage() {
             onMouseLeave={e => { if (passwordMatch) e.currentTarget.style.background = '#F75D02'; }}
           >
             Create Account
-          </Link>
+          </button>
         </form>
 
         {/* Terms */}

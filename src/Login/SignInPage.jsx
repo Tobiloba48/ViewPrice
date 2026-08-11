@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Google from '../assets/google_symbol.svg.png';
 import Facebook from '../assets/facebook_symbol.svg.png';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../Login/AuthContext"
 
 const inputStyle = {
   border: '1px solid rgba(0,0,0,0.15)',
@@ -38,10 +39,26 @@ function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const { login } = useAuth();
+  const navigate = useNavigate
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Signing in:', { email, password });
+    setError('');
+    setLoading(true);
+    try{
+      await login(email, password);
+      navigate("/");
+    }
+    catch (err) {
+      setError(err.message.replace('Firebase: ', ''));
+    }
+    finally{
+      setLoading(false);
+    }
   };
 
   return (
@@ -163,8 +180,7 @@ function SignInPage() {
             onMouseEnter={e => e.currentTarget.style.background = '#d94f00'}
             onMouseLeave={e => e.currentTarget.style.background = '#F75D02'}
           >
-            Sign In
-          </button>
+{loading ? 'Signing in ...' : 'Sign In'}          </button>
         </form>
 
         {/* Divider */}

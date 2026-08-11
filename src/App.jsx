@@ -22,6 +22,8 @@ import ScrollToTop from './components/ScrollToTop.jsx'
 import Cart from './pages/Cart.jsx' 
 import { CartProvider } from './components/CartContext.jsx' 
 
+import { AuthProvider } from './Login/AuthContext.jsx'
+
 function HomePage() {
   const topSalesRef = useRef(null);
   const newGadgetRef = useRef(null);
@@ -76,22 +78,24 @@ function MainLayout () {
 
 function App() {
   return (
-    <CartProvider>
-      <ScrollToTop />
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/product-page/:id" element={<ProductPage />} />
-          <Route path="/cart" element={<Cart />}></Route>
-          <Route path="/order-confirmation" element={<OrderConfirmation />} />
-        </Route>
+    <AuthProvider>
+      <CartProvider>
+        <ScrollToTop />
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/product-page/:id" element={<ProductPage />} />
+            <Route path="/cart" element={<Cart />}></Route>
+            <Route path="/order-confirmation" element={<OrderConfirmation />} />
+          </Route>
 
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<SignInPage />} />
-        <Route path="/reset-password" element={<PasswordReset />} />
-        <Route path="/confirm-email" element={<ConfirmEmail />} />
-      </Routes>
-    </CartProvider>
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<SignInPage />} />
+          <Route path="/reset-password" element={<PasswordReset />} />
+          <Route path="/confirm-email" element={<ConfirmEmail />} />
+        </Routes>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 
