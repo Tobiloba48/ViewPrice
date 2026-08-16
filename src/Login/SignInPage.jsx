@@ -43,7 +43,7 @@ function SignInPage() {
   const [loading, setLoading] = useState(false);
 
   const { login } = useAuth();
-  const navigate = useNavigate
+  const navigate = useNavigate()
 
   const correctEmail = email.includes('@') && email.includes('.');
   const correctPassword = password.length >= 8;
@@ -245,6 +245,17 @@ function SignInPage() {
             {loading ? "Signing in ..." : "Sign In"}{" "}
           </button>
         </form>
+        {error && (
+          <p
+            style={{
+              fontSize: 13,
+              color: "#c62828",
+              textAlign: "center",
+              margin: 0,
+            }}
+          >
+            {error}
+          </p>)}
 
         {/* Divider */}
         <div

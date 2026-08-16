@@ -3,14 +3,47 @@ import Viewprice from '../assets/VIEWPRICE.png'
 import DownArrow from '../assets/keyboard_arrow_down_24dp_000000_FILL0_wght400_GRAD0_opsz24.png'
 import Cart from '../assets/cart.png'
 import { Link, useNavigate  } from "react-router-dom";
+import UserIcon from '../assets/user.png'
+import { useAuth } from "../Login/AuthContext.jsx";
+import LogoutIcon from '../assets/logout.svg'
+
+
+function DropdownItem ({icon, label, danger= false, onClick}) {
+  return (
+    <div className="flex justify-start gap-4 py-2"
+    style={{color: danger ?  "#dc2626" : "#111110" }}
+    onClick={onClick}>
+      <img
+        src={icon}
+      />
+      <label>{label}</label>
+    </div>
+  )
+}
 
 function Header() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);``
   const navigate = useNavigate();
+  const { logout,user }
+ = useAuth();
 
   const handleCartOpen = () => {
-    navigate("/Cart");
+    if (user) {
+      navigate("/Cart");
+    }
+    else {
+      navigate("/signin");
+    }
   }
+
+  const handleLogout = async () => {
+    try{
+      await logout();
+      navigate("/signin");
+      setIsOpen(false);
+    }
+    catch (err) {console.error(err)}
+  };
 
   return (
     <section
@@ -54,7 +87,7 @@ function Header() {
               onMouseLeave={(e) => (e.currentTarget.style.color = "#111110")}
             >
               <span>Categories</span>
-              <img src={DownArrow} alt="" className="h-5 w-4 pt-0.5" />
+              {/* <img src={DownArrow} alt="" className="h-5 w-4 pt-0.5" /> */}
             </li>
 
             <li
@@ -119,7 +152,7 @@ function Header() {
               fontFamily: "'DM Sans', sans-serif",
               textDecoration: "none",
               transition: "background 0.2s, transform 0.15s",
-              display: "inline-block",
+              display: user ? "none" : "inline-block",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = "#d94f00";
@@ -132,11 +165,22 @@ function Header() {
           >
             Sign Up
           </Link>
+
+          <div
+            className="h-10 w-10 border-2 border-white rounded-full hidden"
+            style={{ display: user ? "block" : "none" }}
+          >
+            <img
+              src={UserIcon}
+              alt="User"
+              className="h-full w-full object-cover rounded-full"
+            />
+          </div>
         </div>
 
         {/* Hamburger */}
         <button
-          className="lg:hidden flex flex-col gap-[5px] p-2"
+          className="lg:hidden flex flex-col gap-1.25 p-2"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
         >
@@ -163,13 +207,15 @@ function Header() {
 
       {/* Mobile Menu */}
       <div
-        className="lg:hidden overflow-hidden transition-all duration-300"
-        style={{ maxHeight: isOpen ? 400 : 0, background: "#fff" }}
+        className="lg:hidden overflow-hidden transition-all duration-300 font-semibold"
+        style={{
+          maxHeight: isOpen ? 400 : 0,
+          background: "#fff",
+          fontFamily: "'DM Sans', sans-serif",
+          fontWeight: 600,
+        }}
       >
-        <div
-          className="px-6 pb-6 pt-2 space-y-4 border-t border-black/5"
-          style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}
-        >
+        <div className="px-6 pb-6 pt-2 space-y-4 border-t border-black/5">
           <div
             className="cursor-pointer py-1"
             style={{ color: "#111110" }}
@@ -186,7 +232,7 @@ function Header() {
             style={{ color: "#111110" }}
           >
             <span>Categories</span>
-            <img src={DownArrow} alt="" className="h-5 w-4" />
+            {/* <img src={DownArrow} alt="" className="h-5 w-4" /> */}
           </div>
 
           <div className="cursor-pointer py-1" style={{ color: "#111110" }}>
@@ -206,6 +252,7 @@ function Header() {
                 setIsOpen(false);
               }}
             />
+            <label>Cart</label>
             <Link
               to="/signup"
               onClick={() => setIsOpen(false)}
@@ -217,10 +264,52 @@ function Header() {
                 fontSize: 14,
                 fontWeight: 600,
                 textDecoration: "none",
+                display: user ? "none" : "inline-block",
               }}
             >
               Sign Up
             </Link>
+          </div>
+          <div
+            className="h-10 w-10 border-2 border-white rounded-full gap-3"
+            style={{ display: user ? "flex" : "none" }}
+          >
+            <img
+              src={UserIcon}
+              alt="User"
+              className="h-full w-full object-cover rounded-full"
+            />
+            <div>
+              <p>{user?.name}</p>
+              <p>{user?.email}</p>
+            </div>
+          </div>
+          {/* <div
+            className="flex justify-start gap-2 pt-4 border-t border-black/10 "
+            style={{ display: user ? "flex" : "none" }}
+          >
+            <img
+              className="stroke-red-500 cursor-pointer"
+              src={LogoutIcon}
+              alt="Log Out"
+            />
+            <label className="text-[#EA3323] cursor-pointer">Log Out</label>
+          </div> */}
+          <div>
+            {user ? (
+              <DropdownItem
+                icon={LogoutIcon}
+                label="Log Out"
+                danger
+                onClick={handleLogout}
+              />
+            ) : (
+              <DropdownItem
+                icon={LogoutIcon}
+                label="Log In"
+                onClick={() => navigate("/")}
+              />
+            )}
           </div>
         </div>
       </div>

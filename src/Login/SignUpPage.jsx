@@ -59,7 +59,7 @@ function SignUpPage() {
     setLoading(true);
     try {
       await signup(email, password);
-      navigate("/confirm-email");
+      navigate("/login");
     } catch (err) {
       setError(err.message.replace("Firebase: ", ""));
     } finally {

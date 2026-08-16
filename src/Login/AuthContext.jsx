@@ -27,6 +27,12 @@ export function AuthProvider({ children }) {
   const signup = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   }
+  const checkEmailVerified = async () => {
+    if (auth.currentUser) {
+      await auth.currentUser.reload();
+      setUser({ ...auth.currentUser });
+    }
+  };
 const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   }
@@ -37,8 +43,12 @@ const login = (email, password) => {
 
 
  return (
-    <AuthContext.Provider value={{ user, signup, login, logout, loading }}>{!loading && children}</AuthContext.Provider>
- )
+   <AuthContext.Provider
+     value={{ user, signup, login, logout, loading, checkEmailVerified }}
+   >
+     {!loading && children}
+   </AuthContext.Provider>
+ );
 }
 
 export function useAuth() {
