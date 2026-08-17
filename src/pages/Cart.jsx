@@ -1,16 +1,53 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext.jsx";
+import { useAuth } from "../Login/AuthContext.jsx";
+import cartIcon from "../assets/cart.png";
+
+const Button = ({ label, colorfill = false, onClick }) => {
+  const baseColor = colorfill ? "#F75D02" : "#ffffff";
+  const hoverColor = colorfill ? "#d94f00" : "#f5f5f5";
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        background: baseColor,
+        color: colorfill ? "white" : "black",
+        borderRadius: 20,
+        border: colorfill ? "none" : "1px solid #d1d1d1",
+        padding: "9px 50px",
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "'DM Sans', sans-serif",
+        transition: "background 0.2s, transform 0.15s",
+        cursor: "pointer",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = hoverColor;
+        e.currentTarget.style.transform = "translateY(-1px)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = baseColor;
+        e.currentTarget.style.transform = "translateY(0)";
+      }}
+    >
+      {label}
+    </button>
+  );
+};
 
 function Cart() {
   const { cartItems, updateCount, removeFromCart, clearCart } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleCheckout = () => {
-        clearCart();
-
+    clearCart();
     navigate("/order-confirmation");
-  }
+  };
 
   const shippingFee = cartItems.length === 0 ? 0 : 1000;
 
@@ -25,17 +62,43 @@ function Cart() {
   );
 
   const total = subtotal + shippingFee + vat;
+
   return (
     <div className="lg:mx-15 mx-6 my-30">
-      <h1 className="text-start text-3xl font-semibold">Your Cart</h1>
-
       <div className="flex md:flex-row flex-col gap-4 mt-10">
-        <div className="w-full md:w-[70%] flex flex-col gap-4">
+        <div
+          className={
+            cartItems.length === 0
+              ? "w-full"
+              : "w-full md:w-[70%] flex flex-col gap-4"
+          }
+        >
           {cartItems.length === 0 ? (
-            <p className="text-blue-500 font-bold text-2xl  text-center">Your cart is empty!</p>
+            <div className="flex flex-col items-center justify-center text-center gap-6 py-16">
+              <img src={cartIcon} alt="Empty cart" className="w-20 h-20" />
+              <div>
+                <p className="font-semibold">Your shopping cart is empty</p>
+                <p className="text-gray-500 text-sm">
+                  Add your favorite items in it
+                </p>
+              </div>
+              <div className="flex flex-col gap-4 w-full max-w-xs">
+                {!user && (
+                  <Button
+                    label="Sign in / Register"
+                    onClick={() => navigate("/signin")}
+                  />
+                )}
+                <Button
+                  label="Start shopping"
+                  colorfill
+                  onClick={() => navigate("/")}
+                />
+              </div>
+            </div>
           ) : (
             cartItems.map((item) => (
-              <div className="flex justify-between gap-0  w-" key={item.id}>
+              <div className="flex justify-between gap-0" key={item.id}>
                 <div className="bg-gray-300 flex justify-center place-items-center w-[30%] h-34">
                   <img
                     src={item.image}
@@ -88,7 +151,7 @@ function Cart() {
           <div className="bg-black text-white font-semibold p-6 rounded-lg text-[8px] md:text-[12px] lg:text-lg w-full md:w-[30%] h-full place-items-center">
             <h1 className="font-bold text-2xl pb-10">Order Summary</h1>
 
-            <div className="flex flex-col gap-4 mt-4 text-sm p-10 ">
+            <div className="flex flex-col gap-4 mt-4 text-sm p-10">
               <div className="flex justify-between md:gap-16 gap-40">
                 <p>Subtotal:</p>
                 <p>N{subtotal.toLocaleString()}.00</p>
@@ -105,7 +168,10 @@ function Cart() {
                 <p>Total:</p>
                 <p className="text-[#F75D02]">N{total.toLocaleString()}.00</p>
               </div>
-              <button className="bg-[#F75D02] text-white font-bold py-2 px-4 rounded-lg mt-6 cursor-pointer transition duration-300 m-10" onClick={handleCheckout}>
+              <button
+                className="bg-[#F75D02] text-white font-bold py-2 px-4 rounded-lg mt-6 cursor-pointer transition duration-300 m-10"
+                onClick={handleCheckout}
+              >
                 Checkout
               </button>
             </div>

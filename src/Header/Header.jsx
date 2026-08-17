@@ -10,15 +10,15 @@ import LogoutIcon from '../assets/logout.svg'
 
 function DropdownItem ({icon, label, danger= false, onClick}) {
   return (
-    <div className="flex justify-start gap-4 py-2"
-    style={{color: danger ?  "#dc2626" : "#111110" }}
-    onClick={onClick}>
-      <img
-        src={icon}
-      />
-      <label>{label}</label>
+    <div
+      className="flex justify-start gap-4 py-2 "
+      style={{ color: danger ? "#dc2626" : "#111110" }}
+      onClick={onClick}
+    >
+      <img className="cursor-pointer" src={icon} />
+      <label className="cursor-pointer">{label}</label>
     </div>
-  )
+  );
 }
 
 function Header() {
@@ -32,14 +32,14 @@ function Header() {
       navigate("/Cart");
     }
     else {
-      navigate("/signin");
+      navigate("/login");
     }
   }
 
   const handleLogout = async () => {
     try{
       await logout();
-      navigate("/signin");
+      navigate("/");
       setIsOpen(false);
     }
     catch (err) {console.error(err)}
@@ -243,17 +243,12 @@ function Header() {
           </div>
 
           <div className="flex items-center gap-4 pt-4 border-t border-black/10">
-            <img
-              src={Cart}
-              alt="Cart"
-              className="h-6 cursor-pointer"
-              onClick={() => {
-                handleCartOpen();
-                setIsOpen(false);
-              }}
+            <DropdownItem
+              icon={Cart}
+              label="Cart"
+              onClick={handleCartOpen}
             />
-            <label>Cart</label>
-            <Link
+            {/* <Link
               to="/signup"
               onClick={() => setIsOpen(false)}
               style={{
@@ -268,7 +263,7 @@ function Header() {
               }}
             >
               Sign Up
-            </Link>
+            </Link> */}
           </div>
           <div
             className="h-10 w-10 border-2 border-white rounded-full gap-3"
@@ -307,7 +302,7 @@ function Header() {
               <DropdownItem
                 icon={LogoutIcon}
                 label="Log In"
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/login")}
               />
             )}
           </div>
