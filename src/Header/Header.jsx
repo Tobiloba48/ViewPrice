@@ -1,49 +1,68 @@
-import { useState } from "react";
-import Viewprice from '../assets/VIEWPRICE.png'
-import DownArrow from '../assets/keyboard_arrow_down_24dp_000000_FILL0_wght400_GRAD0_opsz24.png'
-import Cart from '../assets/cart.png'
-import { Link, useNavigate  } from "react-router-dom";
-import UserIcon from '../assets/user.png'
+import { useState, useRef, useEffect } from "react";
+import Viewprice from "../assets/VIEWPRICE.png";
+import DownArrow from "../assets/keyboard_arrow_down_24dp_000000_FILL0_wght400_GRAD0_opsz24.png";
+import Cart from "../assets/cart.png";
+import { Link, useNavigate } from "react-router-dom";
+import UserIcon from "../assets/user.png";
 import { useAuth } from "../Login/AuthContext.jsx";
-import LogoutIcon from '../assets/logout.svg'
+import LogoutIcon from "../assets/logout.svg";
+import SettingsIcon from "../assets/settings.png";
+import LoginIcon from "../assets/login.png";
+import AccountIcon from "../assets/view-profile.png";
 
-
-function DropdownItem ({icon, label, danger= false, onClick}) {
+function DropdownItem({ icon, label, sublabel, danger = false, onClick }) {
   return (
     <div
-      className="flex justify-start gap-4 py-2 "
+      className="flex justify-start gap-4 py-2 cursor-pointer"
       style={{ color: danger ? "#dc2626" : "#111110" }}
       onClick={onClick}
     >
-      <img className="cursor-pointer" src={icon} />
-      <label className="cursor-pointer">{label}</label>
+      <img className="h-6 w-6" src={icon} alt="" />
+      <div>
+        <label className="cursor-pointer block">{label}</label>
+        {sublabel && <span className="text-xs text-gray-500">{sublabel}</span>}
+      </div>
     </div>
   );
 }
 
 function Header() {
-  const [isOpen, setIsOpen] = useState(false);``
+  const [isOpen, setIsOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const profileRef = useRef(null);
+
   const navigate = useNavigate();
-  const { logout,user }
- = useAuth();
+  const { logout, user } = useAuth();
 
   const handleCartOpen = () => {
     if (user) {
       navigate("/Cart");
-    }
-    else {
+    } else {
       navigate("/login");
     }
-  }
+  };
 
   const handleLogout = async () => {
-    try{
+    try {
       await logout();
       navigate("/");
       setIsOpen(false);
+      setIsProfileOpen(false);
+    } catch (err) {
+      console.error(err);
     }
-    catch (err) {console.error(err)}
   };
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setIsProfileOpen(false);
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <section
@@ -56,7 +75,7 @@ function Header() {
         boxShadow: "0 2px 20px rgba(0,0,0,0.06)",
       }}
     >
-      <div className="flex items-center justify-between py-4 px-6 lg:px-14">
+      <div className="flex items-center justify-between py-4 px-6 lg:px-14 relative">
         {/* Logo */}
         <img
           src={Viewprice}
@@ -111,7 +130,10 @@ function Header() {
         </nav>
 
         {/* Desktop Right */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div
+          className="hidden lg:flex items-center gap-4 relative"
+          ref={profileRef}
+        >
           <button
             style={{
               width: 40,
@@ -167,15 +189,55 @@ function Header() {
           </Link>
 
           <div
-            className="h-10 w-10 border-2 border-white rounded-full hidden"
+            className="h-10 w-10 border-2 border-white rounded-full"
             style={{ display: user ? "block" : "none" }}
           >
             <img
               src={UserIcon}
               alt="User"
-              className="h-full w-full object-cover rounded-full"
+              className="h-full w-full object-cover rounded-full cursor-pointer"
+              onClick={() => setIsProfileOpen((prev) => !prev)}
             />
           </div>
+
+          {/* Desktop Profile Dropdown */}
+          {isProfileOpen && (
+            <div className="absolute right-0 top-14 bg-white shadow-lg rounded-lg w-64 border border-black/10 z-50">
+              <div className="p-4 border-b border-black/10">
+                <DropdownItem
+                  icon={UserIcon}
+                  label={user?.name}
+                  sublabel={user?.email}
+                />
+              </div>
+              <div className="p-2">
+                <DropdownItem
+                  icon={AccountIcon}
+                  label="View profile"
+                  onClick={() => {
+                    navigate("/");
+                    setIsProfileOpen(false);
+                  }}
+                />
+                <DropdownItem
+                  icon={SettingsIcon}
+                  label="Account settings"
+                  onClick={() => {
+                    navigate("/");
+                    setIsProfileOpen(false);
+                  }}
+                />
+              </div>
+              <div className="p-2 border-t border-black/10">
+                <DropdownItem
+                  icon={LogoutIcon}
+                  label="Log Out"
+                  danger
+                  onClick={handleLogout}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Hamburger */}
@@ -209,7 +271,7 @@ function Header() {
       <div
         className="lg:hidden overflow-hidden transition-all duration-300 font-semibold"
         style={{
-          maxHeight: isOpen ? 400 : 0,
+          maxHeight: isOpen ? 500 : 0,
           background: "#fff",
           fontFamily: "'DM Sans', sans-serif",
           fontWeight: 600,
@@ -228,11 +290,11 @@ function Header() {
           </div>
 
           <div
-            className="flex items-center gap-2 cursor-pointer py-1"
+            className="flex justify-between items-center gap-2 cursor-pointer py-1"
             style={{ color: "#111110" }}
           >
             <span>Categories</span>
-            {/* <img src={DownArrow} alt="" className="h-5 w-4" /> */}
+            <img src={DownArrow} alt="" className="h-5 w-4" />
           </div>
 
           <div className="cursor-pointer py-1" style={{ color: "#111110" }}>
@@ -242,54 +304,40 @@ function Header() {
             Account
           </div>
 
-          <div className="flex items-center gap-4 pt-4 border-t border-black/10">
-            <DropdownItem
-              icon={Cart}
-              label="Cart"
-              onClick={handleCartOpen}
-            />
-            {/* <Link
-              to="/signup"
-              onClick={() => setIsOpen(false)}
-              style={{
-                background: "#F75D02",
-                color: "#fff",
-                borderRadius: 8,
-                padding: "9px 22px",
-                fontSize: 14,
-                fontWeight: 600,
-                textDecoration: "none",
-                display: user ? "none" : "inline-block",
-              }}
-            >
-              Sign Up
-            </Link> */}
-          </div>
-          <div
-            className="h-10 w-10 border-2 border-white rounded-full gap-3"
-            style={{ display: user ? "flex" : "none" }}
-          >
-            <img
-              src={UserIcon}
-              alt="User"
-              className="h-full w-full object-cover rounded-full"
-            />
-            <div>
-              <p>{user?.name}</p>
-              <p>{user?.email}</p>
+          <div>
+            <div className="pt-4 border-t border-black/15">
+              <DropdownItem icon={Cart} label="Cart" onClick={handleCartOpen} />
             </div>
+            {user && (
+              <div className="pt-2">
+                <DropdownItem
+                  icon={UserIcon}
+                  label={user?.name}
+                  sublabel={user?.email}
+                />
+              </div>
+            )}
           </div>
-          {/* <div
-            className="flex justify-start gap-2 pt-4 border-t border-black/10 "
-            style={{ display: user ? "flex" : "none" }}
-          >
-            <img
-              className="stroke-red-500 cursor-pointer"
-              src={LogoutIcon}
-              alt="Log Out"
+
+          <div className="border-t border-black/15 pt-4">
+            <DropdownItem
+              icon={AccountIcon}
+              label="View profile"
+              onClick={() => {
+                navigate("/");
+                setIsOpen(false);
+              }}
             />
-            <label className="text-[#EA3323] cursor-pointer">Log Out</label>
-          </div> */}
+            <DropdownItem
+              icon={SettingsIcon}
+              label="Account settings"
+              onClick={() => {
+                navigate("/");
+                setIsOpen(false);
+              }}
+            />
+          </div>
+
           <div>
             {user ? (
               <DropdownItem
@@ -300,9 +348,12 @@ function Header() {
               />
             ) : (
               <DropdownItem
-                icon={LogoutIcon}
+                icon={LoginIcon}
                 label="Log In"
-                onClick={() => navigate("/login")}
+                onClick={() => {
+                  navigate("/login");
+                  setIsOpen(false);
+                }}
               />
             )}
           </div>

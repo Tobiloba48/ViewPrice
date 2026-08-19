@@ -10,7 +10,7 @@ function Hero() {
     <div className="relative">
       <Header />
 
-      <section className="relative mt-20 h-screen">
+      <section className="relative mt-16 h-screen">
 
         {/* Background image */}
         <img

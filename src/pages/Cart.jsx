@@ -86,7 +86,7 @@ function Cart() {
                 {!user && (
                   <Button
                     label="Sign in / Register"
-                    onClick={() => navigate("/signin")}
+                    onClick={() => navigate("/login")}
                   />
                 )}
                 <Button
