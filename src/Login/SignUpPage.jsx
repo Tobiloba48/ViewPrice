@@ -35,6 +35,27 @@ const socialBtnStyle = {
   width: "100%",
 };
 
+const InputButton = ({ label, value, placeholder, onChange, type, onBlur, onFocus, disabled }) => {
+ return (
+   <>
+     <label style={{ fontSize: 13, fontWeight: 800, color: "#3a3a38" }}>
+       {label}
+     </label>
+     <input
+       type={type}
+       placeholder={placeholder}
+       value={value}
+       onChange={onChange}
+       onFocus={onFocus}
+       onBlur={onBlur}
+       required
+       style={inputStyle()}
+       disabled={disabled}
+     />
+   </>
+ );
+};
+
 function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -140,16 +161,16 @@ function SignUpPage() {
           style={{ display: "flex", flexDirection: "column", gap: 16 }}
         >
           {/* Email */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <label style={{ fontSize: 13, fontWeight: 500, color: "#3a3a38" }}>
-              Email
-            </label>
-            <input
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>         
+            <InputButton
               type="email"
-              placeholder="Enter Email Address"
+              label="Email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email address"
               style={inputStyle()}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               onFocus={(e) => {
                 e.target.style.borderColor = "#F75D02";
                 e.target.style.boxShadow = "0 0 0 3px rgba(247,93,2,0.1)";
@@ -158,7 +179,6 @@ function SignUpPage() {
                 e.target.style.borderColor = "rgba(0,0,0,0.15)";
                 e.target.style.boxShadow = "none";
               }}
-              required
             />
           </div>
 
@@ -171,15 +191,13 @@ function SignUpPage() {
               position: "relative",
             }}
           >
-            <label style={{ fontSize: 13, fontWeight: 500, color: "#3a3a38" }}>
-              Password
-            </label>
-            <input
+            <InputButton
               type={showPassword ? "text" : "password"}
-              placeholder="Enter Password"
+              label="Password"
               value={password}
+              placeholder="Enter Password"
+              style
               onChange={(e) => setPassword(e.target.value)}
-              style={{ ...inputStyle(passwordTooShort), paddingRight: 56 }}
               onFocus={(e) => {
                 e.target.style.borderColor = "#F75D02";
                 e.target.style.boxShadow = "0 0 0 3px rgba(247,93,2,0.1)";
@@ -188,8 +206,8 @@ function SignUpPage() {
                 e.target.style.borderColor = "rgba(0,0,0,0.15)";
                 e.target.style.boxShadow = "none";
               }}
-              required
             />
+
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
@@ -224,23 +242,20 @@ function SignUpPage() {
               position: "relative",
             }}
           >
-            <label style={{ fontSize: 13, fontWeight: 500, color: "#3a3a38" }}>
-              Confirm Password
-            </label>
-            <input
+            <InputButton
               type={showConfirm ? "text" : "password"}
               disabled={password.length < 8}
-              placeholder="Confirm Password"
+              label="Confirm Password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm Password"
               style={{ ...inputStyle(showMismatch), paddingRight: 56 }}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               onFocus={(e) => {
                 e.target.style.boxShadow = `0 0 0 3px ${showMismatch ? "rgba(198,40,40,0.1)" : "rgba(247,93,2,0.1)"}`;
               }}
               onBlur={(e) => {
                 e.target.style.boxShadow = "none";
               }}
-              required
             />
             <button
               type="button"

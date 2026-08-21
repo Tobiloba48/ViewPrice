@@ -29,17 +29,14 @@ function DropdownItem({ icon, label, sublabel, danger = false, onClick }) {
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const profileRef = useRef(null);
+  const headerRef = useRef(null);
+
 
   const navigate = useNavigate();
   const { logout, user } = useAuth();
 
   const handleCartOpen = () => {
-    if (user) {
-      navigate("/Cart");
-    } else {
-      navigate("/login");
-    }
+   navigate("/cart");
   };
 
   const handleLogout = async () => {
@@ -53,19 +50,20 @@ function Header() {
     }
   };
 
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (profileRef.current && !profileRef.current.contains(e.target)) {
-        setIsProfileOpen(false);
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+ useEffect(() => {
+   function handleClickOutside(e) {
+     if (headerRef.current && !headerRef.current.contains(e.target)) {
+       setIsProfileOpen(false);
+       setIsOpen(false);
+     }
+   }
+   document.addEventListener("mousedown", handleClickOutside);
+   return () => document.removeEventListener("mousedown", handleClickOutside);
+ }, []);
 
   return (
     <section
+      ref={headerRef}
       className="fixed top-0 left-0 w-full z-50"
       style={{
         background: "rgba(255,255,255,0.97)",
@@ -132,7 +130,6 @@ function Header() {
         {/* Desktop Right */}
         <div
           className="hidden lg:flex items-center gap-4 relative"
-          ref={profileRef}
         >
           <button
             style={{
@@ -350,6 +347,7 @@ function Header() {
               <DropdownItem
                 icon={LoginIcon}
                 label="Log In"
+                danger
                 onClick={() => {
                   navigate("/login");
                   setIsOpen(false);
