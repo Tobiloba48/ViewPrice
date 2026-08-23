@@ -118,7 +118,10 @@ function Header() {
 
             <li
               className="cursor-pointer transition-colors duration-200"
-              style={{ color: "#111110" }}
+              style={{ 
+                color: "#111110",
+                display: user ? "block" : "none" 
+                }}
               onMouseEnter={(e) => (e.target.style.color = "#F75D02")}
               onMouseLeave={(e) => (e.target.style.color = "#111110")}
             >
@@ -297,7 +300,11 @@ function Header() {
           <div className="cursor-pointer py-1" style={{ color: "#111110" }}>
             Saved
           </div>
-          <div className="cursor-pointer py-1" style={{ color: "#111110" }}>
+          <div className="cursor-pointer py-1" 
+            style={{ 
+              color: "#111110", 
+              display : user ? "block" : "none",
+              }}>
             Account
           </div>
 
@@ -316,7 +323,10 @@ function Header() {
             )}
           </div>
 
-          <div className="border-t border-black/15 pt-4">
+          <div className="border-t border-black/15 pt-4"
+          style={{
+            display : user ? "block" : "none"
+          }}>
             <DropdownItem
               icon={AccountIcon}
               label="View profile"
@@ -325,6 +335,7 @@ function Header() {
                 setIsOpen(false);
               }}
             />
+            
             <DropdownItem
               icon={SettingsIcon}
               label="Account settings"

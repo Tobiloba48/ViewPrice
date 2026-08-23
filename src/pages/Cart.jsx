@@ -1,53 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext.jsx";
 import { useAuth } from "../Login/AuthContext.jsx";
-import cartIcon from "../assets/cart.png";
 
-const Button = ({ label, colorfill = false, onClick }) => {
-  const baseColor = colorfill ? "#F75D02" : "#ffffff";
-  const hoverColor = colorfill ? "#d94f00" : "#f5f5f5";
+function EmptyCart() {
+  const navigate = useNavigate();
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      style={{
-        background: baseColor,
-        color: colorfill ? "white" : "black",
-        borderRadius: 20,
-        border: colorfill ? "none" : "1px solid #d1d1d1",
-        padding: "9px 50px",
-        fontSize: 14,
-        fontWeight: 600,
-        fontFamily: "'DM Sans', sans-serif",
-        transition: "background 0.2s, transform 0.15s",
-        cursor: "pointer",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = hoverColor;
-        e.currentTarget.style.transform = "translateY(-1px)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = baseColor;
-        e.currentTarget.style.transform = "translateY(0)";
-      }}
-    >
-      {label}
-    </button>
+    <div className="flex flex-col items-center justify-center text-center py-16 px-6 border-2 border-dashed border-gray-200 rounded-xl">
+      <div className="relative w-24 h-24 flex items-center justify-center mb-6">
+        <svg
+          viewBox="0 0 100 100"
+          className="w-full h-full"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="50" cy="50" r="48" fill="#FFF3EC" />
+          <path
+            d="M30 35H70L65 62H35L30 35Z"
+            stroke="#F75D02"
+            strokeWidth="3"
+            strokeLinejoin="round"
+            fill="white"
+          />
+          <path
+            d="M25 30H30L35 62"
+            stroke="#F75D02"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="40" cy="70" r="4" fill="#F75D02" />
+          <circle cx="60" cy="70" r="4" fill="#F75D02" />
+          <path
+            d="M40 45L44 49L52 41"
+            stroke="#F75D02"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+
+      <h2 className="text-xl font-bold text-[#111110] mb-2">
+        Your cart is empty
+      </h2>
+      <p className="text-sm text-gray-500 max-w-xs mb-6">
+        Looks like you haven't added anything yet. Start browsing to find
+        something you'll love.
+      </p>
+
+      <button
+        onClick={() => navigate("/")}
+        className="bg-[#F75D02] text-white font-bold py-3 px-8 rounded-lg cursor-pointer transition duration-300 hover:bg-[#d94f00]"
+      >
+        Continue Shopping
+      </button>
+    </div>
   );
-};
+}
 
 function Cart() {
   const { cartItems, updateCount, removeFromCart, clearCart } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
-
-  const handleCheckout = () => {
-    clearCart();
-    navigate("/order-confirmation");
-  };
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
   const shippingFee = cartItems.length === 0 ? 0 : 1000;
 
@@ -63,42 +80,25 @@ function Cart() {
 
   const total = subtotal + shippingFee + vat;
 
+  const handleCheckout = () => {
+    if (!user) {
+      setShowLoginPrompt(true);
+      return;
+    }
+    clearCart();
+    navigate("/order-confirmation");
+  };
+
   return (
     <div className="lg:mx-15 mx-6 my-30">
+
       <div className="flex md:flex-row flex-col gap-4 mt-10">
-        <div
-          className={
-            cartItems.length === 0
-              ? "w-full"
-              : "w-full md:w-[70%] flex flex-col gap-4"
-          }
-        >
+        <div className="w-full flex flex-col gap-4">
           {cartItems.length === 0 ? (
-            <div className="flex flex-col items-center justify-center text-center gap-6 py-16">
-              <img src={cartIcon} alt="Empty cart" className="w-20 h-20" />
-              <div>
-                <p className="font-semibold">Your shopping cart is empty</p>
-                <p className="text-gray-500 text-sm">
-                  Add your favorite items in it
-                </p>
-              </div>
-              <div className="flex flex-col gap-4 w-full max-w-xs">
-                {!user && (
-                  <Button
-                    label="Sign in / Register"
-                    onClick={() => navigate("/login")}
-                  />
-                )}
-                <Button
-                  label="Start shopping"
-                  colorfill
-                  onClick={() => navigate("/")}
-                />
-              </div>
-            </div>
+            <EmptyCart />
           ) : (
             cartItems.map((item) => (
-              <div className="flex justify-between gap-0" key={item.id}>
+              <div className="flex justify-between gap-0  w-" key={item.id}>
                 <div className="bg-gray-300 flex justify-center place-items-center w-[30%] h-34">
                   <img
                     src={item.image}
@@ -151,7 +151,7 @@ function Cart() {
           <div className="bg-black text-white font-semibold p-6 rounded-lg text-[8px] md:text-[12px] lg:text-lg w-full md:w-[30%] h-full place-items-center">
             <h1 className="font-bold text-2xl pb-10">Order Summary</h1>
 
-            <div className="flex flex-col gap-4 mt-4 text-sm p-10">
+            <div className="flex flex-col gap-4 mt-4 text-sm p-10 ">
               <div className="flex justify-between md:gap-16 gap-40">
                 <p>Subtotal:</p>
                 <p>N{subtotal.toLocaleString()}.00</p>
@@ -169,11 +169,41 @@ function Cart() {
                 <p className="text-[#F75D02]">N{total.toLocaleString()}.00</p>
               </div>
               <button
-                className="bg-[#F75D02] text-white font-bold py-2 px-4 rounded-lg mt-6 cursor-pointer transition duration-300 m-10"
                 onClick={handleCheckout}
+                className="bg-[#F75D02] text-white font-bold py-2 px-4 rounded-lg mt-6 cursor-pointer transition duration-300 hover:bg-[#d94f00]"
               >
                 Checkout
               </button>
+
+              {showLoginPrompt && (
+                <div className="bg-white text-[#111110] rounded-lg p-4 mt-2 flex flex-col gap-3 text-center">
+                  <p className="text-sm font-semibold normal-case">
+                    Sign in to complete your order
+                  </p>
+                  <p className="text-xs text-gray-500 normal-case leading-relaxed">
+                    Your cart will be saved — just log in or create an account
+                    to check out.
+                  </p>
+                  <button
+                    onClick={() => navigate("/login")}
+                    className="bg-[#F75D02] text-white font-semibold py-2 rounded-lg cursor-pointer transition duration-300 hover:bg-[#d94f00] normal-case"
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => navigate("/signup")}
+                    className="bg-white text-[#F75D02] border border-[#F75D02] font-semibold py-2 rounded-lg cursor-pointer transition duration-300 hover:bg-[#FFF3EC] normal-case"
+                  >
+                    Create Account
+                  </button>
+                  <button
+                    onClick={() => setShowLoginPrompt(false)}
+                    className="text-gray-400 text-xs cursor-pointer normal-case hover:underline"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
